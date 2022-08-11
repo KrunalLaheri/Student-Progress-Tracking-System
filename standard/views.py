@@ -1,25 +1,24 @@
 from datetime import datetime, timedelta, timezone
+import email
 from rest_framework import exceptions
 from rest_framework.views import APIView
-from school.authentication import JWTAuthentication, create_access_token, create_refresh_token, decode_refresh_token
-from .models import School, Usertoken
-from .serializers import SchoolSerializer
+from school.authentication import StandardJWTAuthentication, create_access_token, create_refresh_token, decode_refresh_token
+from .models import standard, subject, Usertoken
+from .serializers import StandardSerializer, SubjectSerializer
 from rest_framework.response import Response
 from rest_framework import status
+
 
 # Create your views here.
 
 
-class LoginAPIView(APIView):
+class StandardLoginAPIView(APIView):
     def post(self, request):
-        email = request.data['email']
-        password = request.data['password']
+        sid = request.data['email']
+        spassword = request.data['password']
 
-        user = School.objects.filter(email=email).first()
+        user = standard.objects.filter(email=sid, password=spassword).first()
         if user is None:
-            raise exceptions.AuthenticationFailed('Invalid Credintials')
-
-        if not user.check_password(password):
             raise exceptions.AuthenticationFailed('Invalid Credintials')
 
         access_token = create_access_token(user.id)
@@ -40,14 +39,14 @@ class LoginAPIView(APIView):
         return response
 
 
-class UserAPIView(APIView):
-    authentication_classes = [JWTAuthentication]
+class StandardUserAPIView(APIView):
+    authentication_classes = [StandardJWTAuthentication]
 
     def get(self, request):
-        return Response(SchoolSerializer(request.user).data)
+        return Response(StandardSerializer(request.user).data)
 
 
-class RefreshAPIView(APIView):
+class StandardRefreshAPIView(APIView):
     def post(self, request):
         refresh_token = request.COOKIES.get('refresh_token')
 
@@ -61,7 +60,7 @@ class RefreshAPIView(APIView):
         return Response({'token': access_token})
 
 
-class LogoutAPIView(APIView):
+class StandardLogoutAPIView(APIView):
 
     def post(self, request):
         refresh_token = request.COOKIES.get('refresh_token')
