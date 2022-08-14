@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'school',
     'standard',
+    'student',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
