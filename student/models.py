@@ -1,12 +1,12 @@
 from django.db import models
 from tester_helper import pw_generator, ID_generator
 from standard.models import standard
+from school.models import School
 
 
 class student(models.Model):
     GENDER_CHOICES = [("Male", "Male"), ("Female", "Female")]
-    school_id = models.CharField(
-        max_length=100, blank=True, null=True)
+    school_id = models.ForeignKey(School, on_delete=models.DO_NOTHING)
     standard_id = models.ForeignKey(standard, on_delete=models.DO_NOTHING)
     id = models.CharField(max_length=10,
                           blank=True, unique=True, primary_key=True, editable=False)

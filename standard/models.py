@@ -1,5 +1,6 @@
 from django.db import models
 from tester_helper import pw_generator, ID_generator
+from school.models import School
 
 
 class subject(models.Model):
@@ -12,8 +13,7 @@ class subject(models.Model):
 
 
 class standard(models.Model):
-    school_id = models.CharField(
-        max_length=100, blank=True, null=True)
+    school_id = models.ForeignKey(School, on_delete=models.DO_NOTHING)
     id = models.CharField(max_length=10,
                           blank=True, unique=True, primary_key=True, editable=False)
     name = models.CharField(max_length=20, db_index=True)
