@@ -2,7 +2,7 @@ from rest_framework.serializers import ModelSerializer
 from .models import student
 
 
-class StandardSerializer(ModelSerializer):
+class StudentSerializer(ModelSerializer):
     class Meta:
         model = student
         fields = ['school_id', 'standard_id',  'id', 'name',

@@ -1,12 +1,15 @@
 from datetime import datetime, timedelta, timezone
 import email
+from msilib.schema import ListView
 from rest_framework import exceptions
 from rest_framework.views import APIView
 from school.authentication import StudentJWTAuthentication, create_access_token, create_refresh_token, decode_refresh_token
 from .models import student, Usertoken
-from .serializers import StandardSerializer
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.generics import ListAPIView, CreateAPIView
+from student.serializers import StudentSerializer
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class StudentLoginAPIView(APIView):
@@ -41,7 +44,7 @@ class StudentUserAPIView(APIView):
     authentication_classes = [StudentJWTAuthentication]
 
     def get(self, request):
-        return Response(StandardSerializer(request.user).data)
+        return Response(StudentSerializer(request.user).data)
 
 
 class StudentRefreshAPIView(APIView):
@@ -72,3 +75,18 @@ class StudentLogoutAPIView(APIView):
         }
 
         return response
+
+
+class StudentList(ListAPIView):
+    queryset = student.objects.all()
+    serializer_class = StudentSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['standard_id', 'school_id', 'id']
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     return student.objects.filter(school_id=user)
+
+
+class StudentCreate(CreateAPIView):
+    queryset = student.objects.all()
+    serializer_class = StudentSerializer

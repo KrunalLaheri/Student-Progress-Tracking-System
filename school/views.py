@@ -6,6 +6,7 @@ from .models import School, Usertoken
 from .serializers import SchoolSerializer
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.generics import ListAPIView
 
 # Create your views here.
 
@@ -75,3 +76,8 @@ class LogoutAPIView(APIView):
         }
 
         return response
+
+
+class SchoolList(ListAPIView):
+    queryset = School.objects.all()
+    serializer_class = SchoolSerializer

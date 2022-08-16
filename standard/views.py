@@ -7,6 +7,9 @@ from .models import standard, subject, Usertoken
 from .serializers import StandardSerializer, SubjectSerializer
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.generics import ListAPIView, CreateAPIView
+from django_filters.rest_framework import DjangoFilterBackend
+# from rest_framework.filters import SearchFilter
 
 
 # Create your views here.
@@ -74,3 +77,17 @@ class StandardLogoutAPIView(APIView):
         }
 
         return response
+
+
+class StandardList(ListAPIView):
+    queryset = standard.objects.all()
+    serializer_class = StandardSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['school_id', 'id']
+    # filter_backends = [SearchFilter]
+    # search_fields = ['id']        // we can only search fields which is CharField or TextField
+
+
+class StandardCreate(CreateAPIView):
+    queryset = standard.objects.all()
+    serializer_class = StandardSerializer
