@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-d#4ijt49uq24nf^_w102j_k^zhib6*bct)ax#w-7mdil-ib$tn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -125,6 +125,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'school.School'
 
+CORS_ALLOWED_ORIGINS = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 django_heroku.settings(locals())
