@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta, timezone
-import email
 from msilib.schema import ListView
 from rest_framework import exceptions
 from rest_framework.views import APIView
@@ -81,7 +80,7 @@ class StudentList(ListAPIView):
     queryset = student.objects.all()
     serializer_class = StudentSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['standard_id', 'school_id', 'id']
+    filterset_fields = ['standardId', 'schoolId', 'id']
     # def get_queryset(self):
     #     user = self.request.user
     #     return student.objects.filter(school_id=user)

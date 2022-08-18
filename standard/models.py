@@ -4,8 +4,8 @@ from school.models import School
 
 
 class subject(models.Model):
-    subject_id = models.IntegerField()
-    subject_name = models.CharField(
+    subjectId = models.IntegerField()
+    subjectName = models.CharField(
         max_length=20, db_index=True, unique=True, primary_key=True)
 
     def __str__(self):
@@ -13,7 +13,7 @@ class subject(models.Model):
 
 
 class standard(models.Model):
-    school_id = models.ForeignKey(School, on_delete=models.DO_NOTHING)
+    schoolId = models.ForeignKey(School, on_delete=models.DO_NOTHING)
     id = models.CharField(max_length=10,
                           blank=True, unique=True, primary_key=True, editable=False)
     name = models.CharField(max_length=20, db_index=True)
