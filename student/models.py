@@ -6,8 +6,8 @@ from school.models import School
 
 class student(models.Model):
     GENDER_CHOICES = [("Male", "Male"), ("Female", "Female")]
-    school_id = models.ForeignKey(School, on_delete=models.DO_NOTHING)
-    standard_id = models.ForeignKey(standard, on_delete=models.DO_NOTHING)
+    schoolId = models.ForeignKey(School, on_delete=models.DO_NOTHING)
+    standardId = models.ForeignKey(standard, on_delete=models.DO_NOTHING)
     id = models.CharField(max_length=10,
                           blank=True, unique=True, primary_key=True, editable=False)
     name = models.CharField(max_length=20, db_index=True)
@@ -16,9 +16,7 @@ class student(models.Model):
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
     dob = models.DateField()
     address = models.TextField(max_length=250)
-    admission_date = models.DateField()
-    result_dict = {"Subject name": "Subject Marks"}
-    result = models.JSONField(default=result_dict, null=True)
+    admissionDate = models.DateField()
     password = models.CharField(max_length=50, blank=True)
 
     def save(self, *args, **kwargs):
