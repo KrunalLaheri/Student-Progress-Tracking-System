@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 import jwt
 from rest_framework.authentication import BaseAuthentication, get_authorization_header
 from .models import School
+from standard.models import standard
+from student.models import student
 
 
 # in create_access_token(id) in id we pass id of the user
@@ -36,6 +38,32 @@ class JWTAuthentication(BaseAuthentication):
             token = auth[1].decode('utf-8')
             id = decode_access_token(token)
             user = School.objects.get(pk=id)
+            return (user, None)
+
+        return exceptions.AuthenticationFailed('Unauthenticated User')
+
+
+class StandardJWTAuthentication(BaseAuthentication):
+    def authenticate(self, request):
+        auth = get_authorization_header(request).split()
+
+        if auth and len(auth) == 2:
+            token = auth[1].decode('utf-8')
+            id = decode_access_token(token)
+            user = standard.objects.get(pk=id)
+            return (user, None)
+
+        return exceptions.AuthenticationFailed('Unauthenticated User')
+
+
+class StudentJWTAuthentication(BaseAuthentication):
+    def authenticate(self, request):
+        auth = get_authorization_header(request).split()
+
+        if auth and len(auth) == 2:
+            token = auth[1].decode('utf-8')
+            id = decode_access_token(token)
+            user = student.objects.get(pk=id)
             return (user, None)
 
         return exceptions.AuthenticationFailed('Unauthenticated User')

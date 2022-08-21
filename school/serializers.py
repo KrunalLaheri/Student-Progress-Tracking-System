@@ -6,8 +6,8 @@ from .models import School
 class SchoolSerializer(ModelSerializer):
     class Meta:
         model = School
-        fields = ['school_code', 'school_name',
-                  'email', 'phone_no', 'password']
+        fields = ['code', 'name',
+                  'email', 'phone', 'password']
         extra_kwargs = {
             'password': {'write_only': True}
         }

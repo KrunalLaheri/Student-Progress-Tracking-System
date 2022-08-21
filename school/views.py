@@ -1,14 +1,12 @@
 from datetime import datetime, timedelta, timezone
-import token
-
 from rest_framework import exceptions
-# from django.shortcuts import render
 from rest_framework.views import APIView
-
 from school.authentication import JWTAuthentication, create_access_token, create_refresh_token, decode_refresh_token
 from .models import School, Usertoken
 from .serializers import SchoolSerializer
 from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.generics import ListAPIView
 
 # Create your views here.
 
@@ -36,7 +34,9 @@ class LoginAPIView(APIView):
         response.set_cookie(key='refresh_token',
                             value=refresh_token, httponly=True)
         response.data = {
-            'token': access_token
+            'token': access_token,
+            'status': status.HTTP_200_OK,
+            'message': 'Login Successfull'
         }
         return response
 
@@ -70,7 +70,14 @@ class LogoutAPIView(APIView):
         response = Response()
         response.delete_cookie(key='refresh_token')
         response.data = {
-            'message': 'success'
+            'message': 'success',
+            'status': status.HTTP_200_OK,
+            'message': 'Logout Successfull'
         }
 
         return response
+
+
+class SchoolList(ListAPIView):
+    queryset = School.objects.all()
+    serializer_class = SchoolSerializer
