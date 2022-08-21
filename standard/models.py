@@ -14,8 +14,8 @@ class subject(models.Model):
 
 class standard(models.Model):
     schoolId = models.ForeignKey(School, on_delete=models.DO_NOTHING)
-    id = models.CharField(max_length=10,
-                          blank=True, unique=True, primary_key=True, editable=False)
+    classId = models.CharField(max_length=10,
+                               blank=True, unique=True, primary_key=True, editable=False)
     name = models.CharField(max_length=20, db_index=True)
     subject = models.ManyToManyField(subject)
     password = models.CharField(max_length=50, blank=True)
@@ -23,12 +23,12 @@ class standard(models.Model):
     email = models.EmailField(unique=True)
 
     def save(self, *args, **kwargs):
-        self.id = ID_generator()
+        self.classId = ID_generator()
         self.password = pw_generator()
         super(standard, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.id
+        return self.classId
 
 
 class Usertoken(models.Model):

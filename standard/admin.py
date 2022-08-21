@@ -7,7 +7,7 @@ from standard.models import standard, subject
 
 @admin.register(standard)
 class StandardAdmin(admin.ModelAdmin):
-    list_display = ['schoolId', 'id', 'email',
+    list_display = ['schoolId', 'classId', 'email',
                     'name', 'password']
 
 

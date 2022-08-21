@@ -9,13 +9,13 @@ from standard.models import standard
 
 class exam(models.Model):
     schoolId = models.ForeignKey(School, on_delete=models.DO_NOTHING)
-    standardId = models.ForeignKey(standard, on_delete=models.DO_NOTHING)
+    classId = models.ForeignKey(standard, on_delete=models.DO_NOTHING)
     examId = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
     examName = models.CharField(max_length=20)
 
     class Meta:
-        unique_together = ('standardId', 'examName')
+        unique_together = ('classId', 'examName')
 
     def __str__(self):
         return self.examName
@@ -23,7 +23,7 @@ class exam(models.Model):
 
 class result(models.Model):
     schoolId = models.ForeignKey(School, on_delete=models.DO_NOTHING)
-    standardId = models.ForeignKey(standard, on_delete=models.DO_NOTHING)
+    classId = models.ForeignKey(standard, on_delete=models.DO_NOTHING)
     studentId = models.ForeignKey(student, on_delete=models.DO_NOTHING)
     resultId = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)

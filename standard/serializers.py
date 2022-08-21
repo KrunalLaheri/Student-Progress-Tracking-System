@@ -5,7 +5,7 @@ from .models import standard, subject
 class StandardSerializer(ModelSerializer):
     class Meta:
         model = standard
-        fields = ['schoolId',  'id', 'name',
+        fields = ['schoolId',  'classId', 'name',
                   'email', 'phone', 'password', 'subject']
         extra_kwargs = {
             'password': {'write_only': True}

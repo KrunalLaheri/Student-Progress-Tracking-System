@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
         migrations.RenameField(
             model_name='student',
             old_name='standard_id',
-            new_name='standardId',
+            new_name='classId',
         ),
         migrations.RemoveField(
             model_name='student',

@@ -20,22 +20,30 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='exam',
             fields=[
-                ('examId', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
+                ('examId', models.UUIDField(default=uuid.uuid4,
+                 editable=False, primary_key=True, serialize=False)),
                 ('examName', models.CharField(max_length=20)),
-                ('schoolId', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL)),
-                ('standardId', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='standard.standard')),
+                ('schoolId', models.ForeignKey(
+                    on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL)),
+                ('classId', models.ForeignKey(
+                    on_delete=django.db.models.deletion.DO_NOTHING, to='standard.standard')),
             ],
         ),
         migrations.CreateModel(
             name='result',
             fields=[
-                ('resultId', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
+                ('resultId', models.UUIDField(default=uuid.uuid4,
+                 editable=False, primary_key=True, serialize=False)),
                 ('data', models.JSONField()),
                 ('year', models.DateField()),
-                ('examName', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='result.exam')),
-                ('schoolId', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL)),
-                ('standardId', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='standard.standard')),
-                ('studentId', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='student.student')),
+                ('examName', models.ForeignKey(
+                    on_delete=django.db.models.deletion.DO_NOTHING, to='result.exam')),
+                ('schoolId', models.ForeignKey(
+                    on_delete=django.db.models.deletion.DO_NOTHING, to=settings.AUTH_USER_MODEL)),
+                ('classId', models.ForeignKey(
+                    on_delete=django.db.models.deletion.DO_NOTHING, to='standard.standard')),
+                ('studentId', models.ForeignKey(
+                    on_delete=django.db.models.deletion.DO_NOTHING, to='student.student')),
             ],
         ),
     ]

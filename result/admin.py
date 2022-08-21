@@ -5,10 +5,10 @@ from .models import exam, result
 
 @admin.register(exam)
 class SubjectAdmin(admin.ModelAdmin):
-    list_display = ['schoolId', 'standardId', 'examId', 'examName']
+    list_display = ['schoolId', 'classId', 'examId', 'examName']
 
 
 @admin.register(result)
 class SubjectAdmin(admin.ModelAdmin):
-    list_display = ['schoolId', 'standardId',
+    list_display = ['schoolId', 'classId',
                     'studentId', 'resultId', 'examName', 'data', 'year']

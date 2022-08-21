@@ -12,9 +12,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 # from rest_framework.filters import SearchFilter
 
 
-# Create your views here.
-
-
 class StandardLoginAPIView(APIView):
     def post(self, request):
         sid = request.data['email']
@@ -24,10 +21,10 @@ class StandardLoginAPIView(APIView):
         if user is None:
             raise exceptions.AuthenticationFailed('Invalid Credintials')
 
-        access_token = create_access_token(user.id)
-        refresh_token = create_refresh_token(user.id)
+        access_token = create_access_token(user.classId)
+        refresh_token = create_refresh_token(user.classId)
 
-        Usertoken.objects.create(user_id=user.id,
+        Usertoken.objects.create(user_id=user.classId,
                                  token=refresh_token,
                                  expired_at=datetime.utcnow() + timedelta(days=7)
                                  )

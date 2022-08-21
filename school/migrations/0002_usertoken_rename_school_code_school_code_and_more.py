@@ -13,7 +13,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Usertoken',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.BigAutoField(auto_created=True,
+                 primary_key=True, serialize=False, verbose_name='ID')),
                 ('user_id', models.IntegerField()),
                 ('token', models.CharField(max_length=255)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
@@ -23,7 +24,7 @@ class Migration(migrations.Migration):
         migrations.RenameField(
             model_name='school',
             old_name='school_code',
-            new_name='code',
+            new_name='schoolId',
         ),
         migrations.RenameField(
             model_name='school',

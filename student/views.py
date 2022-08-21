@@ -22,10 +22,10 @@ class StudentLoginAPIView(APIView):
         if user is None:
             raise exceptions.AuthenticationFailed('Invalid Credintials')
 
-        access_token = create_access_token(user.id)
-        refresh_token = create_refresh_token(user.id)
+        access_token = create_access_token(user.studentId)
+        refresh_token = create_refresh_token(user.studentId)
 
-        Usertoken.objects.create(user_id=user.id,
+        Usertoken.objects.create(user_id=user.studentId,
                                  token=refresh_token,
                                  expired_at=datetime.utcnow() + timedelta(days=7)
                                  )
@@ -81,7 +81,7 @@ class StudentList(ListAPIView):
     queryset = student.objects.all()
     serializer_class = StudentSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['standardId', 'schoolId', 'id']
+    filterset_fields = ['classId', 'schoolId', 'id']
     # def get_queryset(self):
     #     user = self.request.user
     #     return student.objects.filter(school_id=user)

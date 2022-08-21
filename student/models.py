@@ -7,9 +7,9 @@ from school.models import School
 class student(models.Model):
     GENDER_CHOICES = [("Male", "Male"), ("Female", "Female")]
     schoolId = models.ForeignKey(School, on_delete=models.DO_NOTHING)
-    standardId = models.ForeignKey(standard, on_delete=models.DO_NOTHING)
-    id = models.CharField(max_length=10,
-                          blank=True, unique=True, primary_key=True, editable=False)
+    classId = models.ForeignKey(standard, on_delete=models.DO_NOTHING)
+    studentId = models.CharField(max_length=10,
+                                 blank=True, unique=True, primary_key=True, editable=False)
     name = models.CharField(max_length=20, db_index=True)
     phone = models.CharField(max_length=10)
     email = models.EmailField(unique=True)
@@ -20,7 +20,7 @@ class student(models.Model):
     password = models.CharField(max_length=50, blank=True)
 
     def save(self, *args, **kwargs):
-        self.id = ID_generator()
+        self.studentId = ID_generator()
         self.password = pw_generator()
         super(student, self).save(*args, **kwargs)
 
