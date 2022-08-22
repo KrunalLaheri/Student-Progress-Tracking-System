@@ -80,7 +80,7 @@ class StandardList(ListAPIView):
     queryset = standard.objects.all()
     serializer_class = StandardSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['schoolId', 'id']
+    filterset_fields = ['schoolId', 'classId']
     # filter_backends = [SearchFilter]
     # search_fields = ['id']        // we can only search fields which is CharField or TextField
 

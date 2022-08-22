@@ -9,7 +9,7 @@ class subject(models.Model):
         max_length=20, db_index=True, unique=True, primary_key=True)
 
     def __str__(self):
-        return self.subject_name
+        return self.subjectName
 
 
 class standard(models.Model):

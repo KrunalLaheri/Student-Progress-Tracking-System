@@ -81,7 +81,7 @@ class StudentList(ListAPIView):
     queryset = student.objects.all()
     serializer_class = StudentSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['classId', 'schoolId', 'id']
+    filterset_fields = ['classId', 'schoolId', 'studentId']
     # def get_queryset(self):
     #     user = self.request.user
     #     return student.objects.filter(school_id=user)
