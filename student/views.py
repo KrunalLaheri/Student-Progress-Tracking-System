@@ -20,7 +20,16 @@ class StudentLoginAPIView(APIView):
         user = student.objects.filter(
             email=semail, password=spassword).first()
         if user is None:
-            raise exceptions.AuthenticationFailed('Invalid Credintials')
+            # data = {
+            #     'data': {},
+            #     'status': status.HTTP_400_BAD_REQUEST,
+            #     'message': 'Login UnSuccessfull'
+            # }
+            raise exceptions.AuthenticationFailed({
+                'data': {},
+                'status': status.HTTP_400_BAD_REQUEST,
+                'message': 'Login Unsuccessfull'
+            })
 
         access_token = create_access_token(user.studentId)
         refresh_token = create_refresh_token(user.studentId)
@@ -33,7 +42,7 @@ class StudentLoginAPIView(APIView):
         response.set_cookie(key='refresh_token',
                             value=refresh_token, httponly=True)
         response.data = {
-            'token': access_token,
+            'data': {'token': access_token},
             'status': status.HTTP_200_OK,
             'message': 'Login Successfull'
         }
@@ -44,7 +53,10 @@ class StudentUserAPIView(APIView):
     authentication_classes = [StudentJWTAuthentication]
 
     def get(self, request):
-        return Response(StudentSerializer(request.user).data)
+        return Response({
+            'data': StudentSerializer(request.user).data,
+            'status': status.HTTP_200_OK,
+            'message': 'Success'})
 
 
 class StudentRefreshAPIView(APIView):
@@ -56,9 +68,17 @@ class StudentRefreshAPIView(APIView):
         if not Usertoken.objects.filter(user_id=id,
                                         token=refresh_token,
                                         expired_at__gt=datetime.now(tz=timezone.utc)).exists():
-            raise exceptions.AuthenticationFailed('unsuthenticated')
+            raise exceptions.AuthenticationFailed({
+                'data': {},
+                'status': status.HTTP_400_BAD_REQUEST,
+                'message': 'Refresh UnSuccessfull'
+            })
         access_token = create_access_token(id)
-        return Response({'token': access_token})
+        return Response(
+            {
+                'data': {'token': access_token},
+                'status': status.HTTP_200_OK,
+                'message': 'Refresh Successfull'})
 
 
 class StudentLogoutAPIView(APIView):
@@ -90,3 +110,11 @@ class StudentList(ListAPIView):
 class StudentCreate(CreateAPIView):
     queryset = student.objects.all()
     serializer_class = StudentSerializer
+    # response = Response()
+    # response.data = {
+    #     'message': 'success',
+    #     'status': status.HTTP_200_OK,
+    #     'message': 'Logout Successfull'
+    # }
+
+    # return response

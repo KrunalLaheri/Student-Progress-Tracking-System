@@ -13,15 +13,25 @@ from rest_framework.generics import ListAPIView
 
 class LoginAPIView(APIView):
     def post(self, request):
+        response = Response()
         email = request.data['email']
         password = request.data['password']
 
         user = School.objects.filter(email=email).first()
         if user is None:
-            raise exceptions.AuthenticationFailed('Invalid Credintials')
+            raise exceptions.AuthenticationFailed({
+                'data': {},
+                'status': status.HTTP_400_BAD_REQUEST,
+                'message': 'Login UnSuccessfull'
+            })
 
         if not user.check_password(password):
-            raise exceptions.AuthenticationFailed('Invalid Credintials')
+            data = {
+                'data': {},
+                'status': status.HTTP_400_BAD_REQUEST,
+                'message': 'Login UnSuccessfull'
+            }
+            raise exceptions.AuthenticationFailed(data)
 
         access_token = create_access_token(user.id)
         refresh_token = create_refresh_token(user.id)
@@ -30,11 +40,11 @@ class LoginAPIView(APIView):
                                  token=refresh_token,
                                  expired_at=datetime.utcnow() + timedelta(days=7)
                                  )
-        response = Response()
+
         response.set_cookie(key='refresh_token',
                             value=refresh_token, httponly=True)
         response.data = {
-            'token': access_token,
+            'data': {'token': access_token},
             'status': status.HTTP_200_OK,
             'message': 'Login Successfull'
         }
@@ -45,7 +55,19 @@ class UserAPIView(APIView):
     authentication_classes = [JWTAuthentication]
 
     def get(self, request):
-        return Response(SchoolSerializer(request.user).data)
+        data = SchoolSerializer(request.user).data
+        if not data:
+            return Response({
+                'data': {},
+                'status': status.HTTP_400_BAD_REQUEST,
+                'message': 'Fetching UnSuccessfull'
+            })
+        else:
+            return Response({
+                'data': data,
+                'status': status.HTTP_200_OK,
+                'message': 'Success Krunal'
+            })
 
 
 class RefreshAPIView(APIView):
@@ -57,9 +79,16 @@ class RefreshAPIView(APIView):
         if not Usertoken.objects.filter(user_id=id,
                                         token=refresh_token,
                                         expired_at__gt=datetime.now(tz=timezone.utc)).exists():
-            raise exceptions.AuthenticationFailed('unsuthenticated')
+            raise exceptions.AuthenticationFailed(data={
+                'data': {},
+                'status': status.HTTP_400_BAD_REQUEST,
+                'message': 'Refresh UnSuccessfull'
+            })
         access_token = create_access_token(id)
-        return Response({'token': access_token})
+        return Response({
+            'data': {'token': access_token},
+            'status': status.HTTP_200_OK,
+            'message': 'Refresh Successfull'})
 
 
 class LogoutAPIView(APIView):

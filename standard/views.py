@@ -19,7 +19,12 @@ class StandardLoginAPIView(APIView):
 
         user = standard.objects.filter(email=sid, password=spassword).first()
         if user is None:
-            raise exceptions.AuthenticationFailed('Invalid Credintials')
+            data = {
+                'data': {},
+                'status': status.HTTP_400_BAD_REQUEST,
+                'message': 'Login UnSuccessfull'
+            }
+            raise exceptions.AuthenticationFailed(data)
 
         access_token = create_access_token(user.classId)
         refresh_token = create_refresh_token(user.classId)
@@ -32,7 +37,7 @@ class StandardLoginAPIView(APIView):
         response.set_cookie(key='refresh_token',
                             value=refresh_token, httponly=True)
         response.data = {
-            'token': access_token,
+            'data': {'token': access_token},
             'status': status.HTTP_200_OK,
             'message': 'Login Successfull'
         }
@@ -43,7 +48,12 @@ class StandardUserAPIView(APIView):
     authentication_classes = [StandardJWTAuthentication]
 
     def get(self, request):
-        return Response(StandardSerializer(request.user).data)
+        return Response(
+            {
+                'data': StandardSerializer(request.user).data,
+                'status': status.HTTP_200_OK,
+                'message': 'Success'
+            })
 
 
 class StandardRefreshAPIView(APIView):
@@ -55,9 +65,17 @@ class StandardRefreshAPIView(APIView):
         if not Usertoken.objects.filter(user_id=id,
                                         token=refresh_token,
                                         expired_at__gt=datetime.now(tz=timezone.utc)).exists():
-            raise exceptions.AuthenticationFailed('unsuthenticated')
+            data = {
+                'data': {},
+                'status': status.HTTP_400_BAD_REQUEST,
+                'message': 'Login UnSuccessfull'
+            }
+            raise exceptions.AuthenticationFailed(data)
         access_token = create_access_token(id)
-        return Response({'token': access_token})
+        return Response({
+            'data': {'token': access_token},
+            'status': status.HTTP_200_OK,
+            'message': 'Refresh Successfull'})
 
 
 class StandardLogoutAPIView(APIView):

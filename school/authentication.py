@@ -5,6 +5,7 @@ from rest_framework.authentication import BaseAuthentication, get_authorization_
 from .models import School
 from standard.models import standard
 from student.models import student
+from rest_framework import status
 
 
 # in create_access_token(id) in id we pass id of the user
@@ -75,7 +76,11 @@ def decode_access_token(token):
         return payload['user_id']
     except Exception as e:
         print(e)
-        raise exceptions.AuthenticationFailed('unauthenticated')
+        raise exceptions.AuthenticationFailed({
+            'data': {},
+            'status': status.HTTP_400_BAD_REQUEST,
+            'message': 'Fetching Data Unsuccessfull'
+        })
 
 
 def decode_refresh_token(token):
@@ -83,4 +88,7 @@ def decode_refresh_token(token):
         payload = jwt.decode(token, 'refresh_secret', algorithms='HS256')
         return payload['user_id']
     except:
-        raise exceptions.AuthenticationFailed('unauthenticated')
+        raise exceptions.AuthenticationFailed({
+            'data': {},
+            'status': status.HTTP_400_BAD_REQUEST,
+            'message': 'Refreshing UnSuccessfull'})

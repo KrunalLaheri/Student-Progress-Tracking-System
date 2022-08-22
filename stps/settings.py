@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'standard',
     'student',
     'result',
+    'nonacadamin',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
