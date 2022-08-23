@@ -47,7 +47,7 @@ class LoginAPIView(APIView):
         response.set_cookie(key='refresh_token',
                             value=refresh_token, httponly=True)
         response.data = {
-            'data': {'token': access_token, 'schoolId': user.schoolId},
+            'data': {'token': access_token, 'schoolId': user.id},
             'status': status.HTTP_200_OK,
             'message': 'Login Successfull'
         }
