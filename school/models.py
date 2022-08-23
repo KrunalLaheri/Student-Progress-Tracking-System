@@ -11,8 +11,9 @@ class School(AbstractUser):
     email = models.EmailField(max_length=100, unique=True)
     phone = models.CharField(max_length=10)
     address = models.TextField()
+
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'schoolId']
+    REQUIRED_FIELDS = ['username', 'schoolId', 'phone', 'address']
 
     def __str__(self):
         return "{}".format(self.email)

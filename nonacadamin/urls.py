@@ -11,5 +11,4 @@ urlpatterns = [
     path('subcategoricreate/', SubcategoryCreate.as_view()),
     path('levelcreate/', LevelCreate.as_view()),
     path('participationcreate/', ParticipationCreate.as_view()),
-
 ]

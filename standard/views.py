@@ -1,15 +1,19 @@
 from datetime import datetime, timedelta, timezone
 import email
+import json
 from rest_framework import exceptions
 from rest_framework.views import APIView
-from school.authentication import StandardJWTAuthentication, create_access_token, create_refresh_token, decode_refresh_token
+from school.authentication import JWTAuthentication, StandardJWTAuthentication, create_access_token, create_refresh_token, decode_refresh_token
 from .models import standard, subject, Usertoken
 from .serializers import StandardSerializer, SubjectSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import ListAPIView, CreateAPIView
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import serializers
 # from rest_framework.filters import SearchFilter
+from rest_framework.response import Response
+from rest_framework import status
 
 
 class StandardLoginAPIView(APIView):
@@ -95,14 +99,57 @@ class StandardLogoutAPIView(APIView):
 
 
 class StandardList(ListAPIView):
+    # authentication_classes = [StandardJWTAuthentication]
     queryset = standard.objects.all()
     serializer_class = StandardSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['schoolId', 'classId']
+    filterset_fields = ['schoolId', 'classId', 'className']
     # filter_backends = [SearchFilter]
     # search_fields = ['id']        // we can only search fields which is CharField or TextField
 
+# Note the use of `get_queryset()` instead of `self.queryset`
+    # def list(self, request):
+    #     queryset = self.get_queryset()
+    #     serializer = StandardSerializer(queryset, many=True)
+    #     data = serializer.data
+    #     return Response({
+    #         'data': data,
+    #         'status': status.HTTP_200_OK,
+    #         'message': 'Fatching Successfull'
+    #     })
+
+# ==================================================================================================
+    # def get(self, request):
+    #     queryset = StandardSerializer(standard.objects.all())
+    #     response = Response()
+    #     response.data = {
+    #         'status': status.HTTP_200_OK,
+    #         'message': 'test',
+    #         'data': queryset.data
+    #     }
+    #     return response
+# ==================================================================================================
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        response.data = {
+            'data': response.data, 'status': status.HTTP_200_OK, 'message': 'Data Found Successfully'}
+        return response
+
 
 class StandardCreate(CreateAPIView):
+    # authentication_classes = [StandardJWTAuthentication]
     queryset = standard.objects.all()
     serializer_class = StandardSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        data = {
+            'data': {},
+            'Message': 'You have successfully register category',
+            'status': status.HTTP_200_OK,
+        }
+        return Response(data)

@@ -7,6 +7,7 @@ from .serializers import SchoolSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.generics import ListAPIView
+from django_filters.rest_framework import DjangoFilterBackend
 
 # Create your views here.
 
@@ -18,6 +19,8 @@ class LoginAPIView(APIView):
         password = request.data['password']
 
         user = School.objects.filter(email=email).first()
+        schid = user.schoolId
+        print(schid)
         if user is None:
             raise exceptions.AuthenticationFailed({
                 'data': {},
@@ -44,7 +47,7 @@ class LoginAPIView(APIView):
         response.set_cookie(key='refresh_token',
                             value=refresh_token, httponly=True)
         response.data = {
-            'data': {'token': access_token},
+            'data': {'token': access_token, 'schoolId': user.schoolId},
             'status': status.HTTP_200_OK,
             'message': 'Login Successfull'
         }
@@ -103,10 +106,18 @@ class LogoutAPIView(APIView):
             'status': status.HTTP_200_OK,
             'message': 'Logout Successfull'
         }
-
         return response
 
 
 class SchoolList(ListAPIView):
+    # authentication_classes = [JWTAuthentication]
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['schoolId']
+
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        response.data = {
+            'data': response.data, 'status': status.HTTP_200_OK, 'message': 'Data Found Successfully'}
+        return response

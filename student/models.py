@@ -18,10 +18,13 @@ class student(models.Model):
     address = models.TextField(max_length=250)
     admissionDate = models.DateField()
     password = models.CharField(max_length=50, blank=True)
+    profilePhoto = models.ImageField(null=True, blank=True,
+                                     upload_to=None, height_field=None, width_field=None, max_length=100)
 
     def save(self, *args, **kwargs):
         self.studentId = ID_generator()
         self.password = pw_generator()
+
         super(student, self).save(*args, **kwargs)
 
     def __str__(self):

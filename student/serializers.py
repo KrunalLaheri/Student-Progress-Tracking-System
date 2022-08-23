@@ -6,7 +6,7 @@ class StudentSerializer(ModelSerializer):
     class Meta:
         model = student
         fields = ['schoolId', 'classId',  'studentId', 'name',
-                  'phone', 'email', 'gender', 'dob', 'address', 'admissionDate', 'password']
+                  'phone', 'email', 'gender', 'dob', 'address', 'admissionDate', 'password', 'profilePhoto']
         extra_kwargs = {
             'password': {'write_only': True}
         }

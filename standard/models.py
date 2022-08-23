@@ -16,11 +16,14 @@ class standard(models.Model):
     schoolId = models.ForeignKey(School, on_delete=models.DO_NOTHING)
     classId = models.CharField(max_length=10,
                                blank=True, unique=True, primary_key=True, editable=False)
-    name = models.CharField(max_length=20, db_index=True)
-    subject = models.ManyToManyField(subject)
+    className = models.CharField(max_length=20, db_index=True)
+    teacherName = models.CharField(max_length=50)
+    # subject = models.ManyToManyField(subject)
     password = models.CharField(max_length=50, blank=True)
     phone = models.CharField(max_length=10)
     email = models.EmailField(unique=True)
+    profilePhoto = models.ImageField(null=True,
+                                     upload_to=None, height_field=None, width_field=None, max_length=100)
 
     def save(self, *args, **kwargs):
         self.classId = ID_generator()
