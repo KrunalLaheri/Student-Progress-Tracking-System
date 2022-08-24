@@ -2,6 +2,7 @@ from django.db import models
 from tester_helper import pw_generator, ID_generator
 from standard.models import standard
 from school.models import School
+from django.core.mail import send_mail
 
 
 class student(models.Model):
@@ -24,11 +25,26 @@ class student(models.Model):
     def save(self, *args, **kwargs):
         self.studentId = ID_generator()
         self.password = pw_generator()
-
+        send_mail('Account Activation',
+                  f'Your Password is {self.password}', 'laherikrunal10@gmail.com', [self.email], fail_silently=False)
+        # send_mail('Account Activation',
+        #           'Your Password is ', 'laherikrunal10@gmail.com', ['laherikrunal5@gmail.com'], fail_silently=False)
+        # if self.pk:
+        # send_mail('Account Activation',
+        #           'Your Password is '[self.password], 'laherikrunal10@gmail.com', [self.email])
         super(student, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
+
+    # def post_create(self):
+    #     # do job, send mails
+    #     send_mail('Account Activation',
+    #               'Your Password is ', 'laherikrunal10@gmail.com', ['laherikrunal5@gmail.com'], fail_silently=False)
+    #     pass
+# [self.password]
+# [self.email]
+# init_post Signal
 
 
 class Usertoken(models.Model):

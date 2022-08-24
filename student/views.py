@@ -45,7 +45,8 @@ class StudentLoginAPIView(APIView):
         response.data = {
             'data': {'token': access_token},
             'status': status.HTTP_200_OK,
-            'message': 'Login Successfull'
+            'message': 'Login Successfull',
+            'studentId': user.studentId
         }
         return response
 
