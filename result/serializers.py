@@ -12,4 +12,4 @@ class ResultSerializer(ModelSerializer):
     class Meta:
         model = result
         fields = ['schoolId', 'classId',
-                  'studentId', 'resultId', 'examName', 'data', 'year']
+                  'studentId', 'resultId', 'sem', 'year', 'data', 'studentName', 'avg']

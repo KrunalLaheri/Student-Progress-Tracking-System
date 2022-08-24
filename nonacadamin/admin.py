@@ -13,7 +13,7 @@ class Admin(admin.ModelAdmin):
 
 @admin.register(subcategory)
 class Admin(admin.ModelAdmin):
-    list_display = ['subCatId', 'catName', 'subCatName']
+    list_display = ['subCatId', 'catId', 'subCatName']
 
 
 @admin.register(level)

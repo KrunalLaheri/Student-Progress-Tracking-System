@@ -47,7 +47,7 @@ class ResultList(ListAPIView):
     serializer_class = ResultSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['schoolId', 'classId',
-                        'studentId', 'resultId', 'examName', 'year']
+                        'studentId', 'resultId', 'sem', 'year', 'studentName', 'avg']
     # filter_backends = [SearchFilter]
     # search_fields = ['id']        // we can only search fields which is CharField or TextField
 

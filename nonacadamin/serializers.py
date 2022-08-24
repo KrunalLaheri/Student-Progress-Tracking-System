@@ -12,7 +12,7 @@ class CategoriSerializer(ModelSerializer):
 class SubcategorySerializer(ModelSerializer):
     class Meta:
         model = subcategory
-        fields = ['subCatId', 'catName', 'subCatName']
+        fields = ['subCatId', 'catId', 'subCatName']
 
 
 class LevelSerializer(ModelSerializer):

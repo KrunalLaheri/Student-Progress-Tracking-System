@@ -27,9 +27,14 @@ class result(models.Model):
     studentId = models.ForeignKey(student, on_delete=models.DO_NOTHING)
     resultId = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
-    examName = models.ForeignKey(exam, on_delete=models.DO_NOTHING)
+    sem = models.IntegerField()
+    # sem = models.CharField(max_length=20)
+    # sem = models.ForeignKey(exam, on_delete=models.DO_NOTHING)
+    year = models.CharField(max_length=20)
     data = models.JSONField()
-    year = models.DateField()
+    studentName = models.CharField(max_length=100)
+    avg = models.FloatField()
 
     def __str__(self):
-        return str(self.examName)
+        return str(self.sem)
+

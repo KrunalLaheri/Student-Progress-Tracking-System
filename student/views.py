@@ -144,7 +144,7 @@ class StudentCreate(CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
+        # headers = self.get_success_headers(serializer.data)
         data = {
             'data': {},
             'Message': 'You have successfully register',

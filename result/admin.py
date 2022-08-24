@@ -11,4 +11,4 @@ class SubjectAdmin(admin.ModelAdmin):
 @admin.register(result)
 class SubjectAdmin(admin.ModelAdmin):
     list_display = ['schoolId', 'classId',
-                    'studentId', 'resultId', 'examName', 'data', 'year']
+                    'studentId', 'resultId', 'sem', 'year', 'data', 'studentName', 'avg']

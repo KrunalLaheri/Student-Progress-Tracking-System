@@ -48,7 +48,7 @@ class LoginAPIView(APIView):
         response.set_cookie(key='refresh_token',
                             value=refresh_token, httponly=True)
         response.data = {
-            'data': {'token': access_token, 'schoolId': user.id},
+            'data': {'token': access_token, 'id': user.id},
             'status': status.HTTP_200_OK,
             'message': 'Login Successfull'
         }
@@ -115,7 +115,7 @@ class SchoolList(ListAPIView):
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['schoolId']
+    filterset_fields = ['schoolId', 'id']
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)

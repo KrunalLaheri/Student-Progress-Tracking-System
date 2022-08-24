@@ -13,7 +13,7 @@ class CategoriList(ListAPIView):
     queryset = categori.objects.all()
     serializer_class = CategoriSerializer
     filter_backends = [DjangoFilterBackend]
-    # filterset_fields = ['schoolId',  'classId', 'examId', 'examName']
+    filterset_fields = ['catId']
     # filter_backends = [SearchFilter]
     # search_fields = ['id']        // we can only search fields which is CharField or TextField
 
@@ -46,7 +46,7 @@ class SubcategoryList(ListAPIView):
     queryset = subcategory.objects.all()
     serializer_class = SubcategorySerializer
     filter_backends = [DjangoFilterBackend]
-    # filterset_fields = ['schoolId',  'classId', 'examId', 'examName']
+    filterset_fields = ['subCatId']
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
@@ -106,7 +106,7 @@ class ParticipationList(ListAPIView):
     queryset = participation.objects.all()
     serializer_class = ParticipationSerializer
     filter_backends = [DjangoFilterBackend]
-    # filterset_fields = ['schoolId',  'classId', 'examId', 'examName']
+    filterset_fields = ['schoolId',  'classId', 'studentId']
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)

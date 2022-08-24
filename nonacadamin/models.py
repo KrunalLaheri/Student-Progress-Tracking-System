@@ -17,7 +17,7 @@ class categori(models.Model):
 class subcategory(models.Model):
     subCatId = models.UUIDField(
         default=uuid.uuid4, editable=False, unique=True, primary_key=True)
-    catName = models.ForeignKey(categori, on_delete=models.DO_NOTHING)
+    catId = models.ForeignKey(categori, on_delete=models.DO_NOTHING)
     subCatName = models.CharField(max_length=100, unique=True, blank=False)
 
     def __str__(self):
