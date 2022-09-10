@@ -25,13 +25,8 @@ class student(models.Model):
     def save(self, *args, **kwargs):
         self.studentId = ID_generator()
         self.password = pw_generator()
-        send_mail('Account Activation',
-                  f'Your Password is {self.password}', 'laherikrunal10@gmail.com', [self.email], fail_silently=False)
         # send_mail('Account Activation',
-        #           'Your Password is ', 'laherikrunal10@gmail.com', ['laherikrunal5@gmail.com'], fail_silently=False)
-        # if self.pk:
-        # send_mail('Account Activation',
-        #           'Your Password is '[self.password], 'laherikrunal10@gmail.com', [self.email])
+        #           f'Your Password is {self.password}', 'laherikrunal10@gmail.com', [self.email], fail_silently=False)
         super(student, self).save(*args, **kwargs)
 
     def __str__(self):

@@ -16,7 +16,7 @@ class School(AbstractUser):
     REQUIRED_FIELDS = ['username', 'schoolId', 'phone', 'address']
 
     def __str__(self):
-        return "{}".format(self.email)
+        return "{}".format(self.id)
 
 
 class Usertoken(models.Model):

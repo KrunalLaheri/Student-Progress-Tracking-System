@@ -27,7 +27,7 @@ class result(models.Model):
     studentId = models.ForeignKey(student, on_delete=models.DO_NOTHING)
     resultId = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False)
-    sem = models.IntegerField()
+    sem = models.ForeignKey(exam, on_delete=models.DO_NOTHING)
     # sem = models.CharField(max_length=20)
     # sem = models.ForeignKey(exam, on_delete=models.DO_NOTHING)
     year = models.CharField(max_length=20)
@@ -37,4 +37,3 @@ class result(models.Model):
 
     def __str__(self):
         return str(self.sem)
-
